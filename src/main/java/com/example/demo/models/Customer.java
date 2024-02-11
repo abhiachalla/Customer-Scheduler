@@ -27,7 +27,7 @@ public class Customer {
     @Column(name = "customerType")
     private CustomerType customerType;
 
-    // how to store customer requests - list of strings in DB??????????????????
+// how to store customer requests - list of strings in DB???
     @Column(name = "requests")
     private String requests;
 
@@ -58,7 +58,5 @@ public class Customer {
     public String getRequests() {
         return this.requests;
     }
-
-
 
 }

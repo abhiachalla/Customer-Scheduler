@@ -10,7 +10,7 @@ public class CustomerService {
     public String addCustomer(Customer customer, SchedulerService schedulerService) {
         // store in DB
         // send to scheduler
-        
-        return schedulerService.addCustomer(customer) + " customers added!";
+        schedulerService.checkIn(customer);
+        return " customers added!";
     }
 }
