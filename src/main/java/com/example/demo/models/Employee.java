@@ -25,13 +25,11 @@ public class Employee {
         String customerRequests = customer.getRequests();
         StringBuilder employeeResponses = new StringBuilder();
 
-        return customer.getName() + " is being served";
-
-        // for (String request : customerRequests.split(",")) {
-        //     employeeResponses.append(request + " completed, ");
-        // }
+        for (String request : customerRequests.split(",")) {
+            employeeResponses.append("Request ****** " + request + " ****** completed, ");
+        }
         
-        // return employeeResponses.toString();
+        return employeeResponses.toString();
     }
 
 

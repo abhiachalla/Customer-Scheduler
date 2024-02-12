@@ -32,6 +32,9 @@ public class Customer {
     @Column(name = "requests")
     private String requests;
 
+    @Column(name = "sequentialServiceNumber")
+    private int sequentialServiceNumber;
+
     @Column(name = "ticketNumber")
     private int ticketNumber;
     
@@ -65,6 +68,14 @@ public class Customer {
         return this.requests;
     }
 
+    public int getSequentialServiceNumber() {
+        return this.sequentialServiceNumber;
+    }
+
+    public void setSequentialServiceNumber(int sequenceNumber) {
+        this.sequentialServiceNumber = sequenceNumber;
+    }
+
     public int getTicketNumber() {
         return this.ticketNumber;
     }
@@ -72,5 +83,4 @@ public class Customer {
     public void setTicketNumber(int ticketNumber) {
         this.ticketNumber = ticketNumber;
     }
-
 }

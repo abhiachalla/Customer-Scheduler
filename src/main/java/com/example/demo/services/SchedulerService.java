@@ -22,6 +22,7 @@ public class SchedulerService {
 
     int vipCount;
     int normalCount;
+    int generatedTicketNumber;
     int sequenceNumber;
 
     public SchedulerService() {
@@ -30,16 +31,22 @@ public class SchedulerService {
 
         this.vipCount = 0;
         this.normalCount = 0;   
-        this.sequenceNumber = 1;
+        this.generatedTicketNumber = 1;
+        this.sequenceNumber = 1;    
     }
 
-    public void checkIn(Customer customer) {
+    public String checkIn(Customer customer) {
 
         if (customer.getCustomerType().equals(CustomerType.VIP)) {
             VIPCustomerList.add(customer);
         } else {
             NormalCustomerList.add(customer);
         }
+        int sequentialServiceNumber = sequenceNumber++;
+        
+        this.updateSequenceNumber(customer.getName(), sequentialServiceNumber);
+
+        return "Your sequential service number is " + sequentialServiceNumber;
     }
 
     public Customer getNextCustomer() {
@@ -48,12 +55,12 @@ public class SchedulerService {
 
             vipCount++;
 
-            int ticketID = sequenceNumber++;
+            int ticketID = generatedTicketNumber++;
             
             Customer nexCustomer =  VIPCustomerList.poll();
-            String nextCustomerName = nexCustomer.getName();
+            int nextSequentialServiceNumber = nexCustomer.getSequentialServiceNumber();
 
-            this.updateCustomerTicketNumber(nextCustomerName, ticketID);
+            this.updateCustomerTicketNumber(nextSequentialServiceNumber, ticketID);
             
             return nexCustomer;
         } 
@@ -64,12 +71,12 @@ public class SchedulerService {
             vipCount = 0;
             normalCount = 0;
             
-            int ticketID = sequenceNumber++;
+            int ticketID = generatedTicketNumber++;
             
             Customer nexCustomer = NormalCustomerList.poll();
-            String nextCustomerName = nexCustomer.getName();
+            int nextSequentialServiceNumber = nexCustomer.getSequentialServiceNumber();
 
-            this.updateCustomerTicketNumber(nextCustomerName, ticketID);
+            this.updateCustomerTicketNumber(nextSequentialServiceNumber, ticketID);
             
             return nexCustomer;
         }
@@ -77,9 +84,9 @@ public class SchedulerService {
         return new Customer("", "", CustomerType.EMPTY, "");
     }
 
-    private void updateCustomerTicketNumber(String nextCustomerName, int ticketID) {
+    private void updateCustomerTicketNumber(int nextSequentialServiceNumber, int ticketID) {
 
-        Optional<Customer> customerFromDB = customerRepository.findByName(nextCustomerName);
+        Optional<Customer> customerFromDB = customerRepository.findBySequentialServiceNumber(nextSequentialServiceNumber);
 
             if(customerFromDB.isPresent()) {
                 customerFromDB.get().setTicketNumber(ticketID);
@@ -87,7 +94,17 @@ public class SchedulerService {
             }
     }
 
-    public String getSequenceNumber(Customer customer) {
-        return "Your sequence number is " + customer.getTicketNumber();
+    private void updateSequenceNumber(String nextCustomerName, int sequenceNumber) {
+
+        Optional<Customer> customerFromDB = customerRepository.findByName(nextCustomerName);
+
+            if(customerFromDB.isPresent()) {
+                customerFromDB.get().setSequentialServiceNumber(sequenceNumber);
+                customerRepository.save(customerFromDB.get());
+            }
+    }
+
+    public String getgeneratedTicketNumber(Customer customer) {
+        return "Your generated ticket number is " + customer.getTicketNumber();
     }
 }

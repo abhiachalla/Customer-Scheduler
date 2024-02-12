@@ -11,4 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface CustomerRepository extends JpaRepository<Customer, Integer>{
 
     Optional<Customer> findByName(String name);
+
+    Optional<Customer> findBySequentialServiceNumber(int sequentialServiceNumber);
 }

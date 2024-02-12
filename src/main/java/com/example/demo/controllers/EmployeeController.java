@@ -29,9 +29,11 @@ public class EmployeeController {
 
     @GetMapping("/serveNextCustomer")
     public String getMethodName() {
-        // Scheduler.getNextCustomer();
+
         Customer nextCustomer  = schedulerService.getNextCustomer();
+
         Employee employee = new Employee("John");
+        
         return employee.serveCustomer(nextCustomer);
     }
     

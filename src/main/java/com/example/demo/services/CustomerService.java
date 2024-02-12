@@ -33,13 +33,13 @@ public class CustomerService {
 
         customerRepository.save(customer);
         
-        schedulerService.checkIn(customer);
-        return " customers added!";
+        String response = schedulerService.checkIn(customer);
+        return response;
     }
 
     public String getSequenceNumber(Customer customer) {
         // if the customer exists in db, return the ticket number
-        
-        return schedulerService.getSequenceNumber(customer);
+        // else return "customer not found"
+        return "";
     }
 }
