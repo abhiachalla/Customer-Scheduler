@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.example.demo.models.Customer;
 import com.example.demo.services.CustomerService;
-import com.example.demo.services.SchedulerService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+
 
 
 
@@ -14,15 +17,31 @@ import com.example.demo.services.SchedulerService;
 @RestController
 public class CustomerController {
     
-    @Autowired
+
     CustomerService customerService;
 
+    public CustomerController() {
+    }   
+
     @Autowired
-    SchedulerService schedulerService;
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
+    }
 
     @PostMapping("/checkIn")
     public String checkIn(@RequestBody Customer customer) {
-        return customerService.addCustomer(customer, schedulerService);
+        return customerService.addCustomer(customer);
     }
+
+    @GetMapping("/sequenceNumber")
+    public String getMethodName(@RequestBody Customer customer) {
+        return customerService.getSequenceNumber(customer);
+    }
+    
+    @GetMapping("/checkInTest")
+    public String getMethodName() {
+        return "check in working";
+    }
+    
     
 }

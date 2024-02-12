@@ -8,29 +8,37 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
+@Data
 @Table(name = "Customer")
 public class Customer {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long cID;
+    private int cID;
     
-    @Column(name = "name")
+    @Column(name = "cname")
     private String name;
     
-    @Column(name = "number")
+    @Column(name = "cnumber")
     private String number;
     
     @Enumerated(EnumType.STRING)
     @Column(name = "customerType")
     private CustomerType customerType;
 
-// how to store customer requests - list of strings in DB???
     @Column(name = "requests")
     private String requests;
 
+    @Column(name = "ticketNumber")
+    private int ticketNumber;
+
+    public Customer() {
+        
+    }
+    
     public Customer(String name, String number, CustomerType customerType, String requests) {
         this.name = name;
         this.number = number;
@@ -38,7 +46,7 @@ public class Customer {
         this.requests = requests;
     }
 
-    public long getcID() {
+    public int getcID() {
         return this.cID;
     }
 
@@ -51,12 +59,19 @@ public class Customer {
     }
 
     public CustomerType getCustomerType() {
-        return this.customerType;
+        return this.customerType == null ? CustomerType.EMPTY : this.customerType;
     }
 
-    // change this to list of strings ???????????????????????????????????????
     public String getRequests() {
         return this.requests;
+    }
+
+    public int getTicketNumber() {
+        return this.ticketNumber;
+    }
+
+    public void setTicketNumber(int ticketNumber) {
+        this.ticketNumber = ticketNumber;
     }
 
 }
