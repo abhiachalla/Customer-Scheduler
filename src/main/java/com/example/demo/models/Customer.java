@@ -37,7 +37,7 @@ public class Customer {
 
     @Column(name = "ticketNumber")
     private int ticketNumber;
-    
+
     public Customer(String name, String number, CustomerType customerType, String requests) {
         this.name = name;
         this.number = number;

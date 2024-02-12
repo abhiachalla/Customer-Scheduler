@@ -26,10 +26,18 @@ public class Employee {
         StringBuilder employeeResponses = new StringBuilder();
 
         for (String request : customerRequests.split(",")) {
-            employeeResponses.append("Request ****** " + request + " ****** completed, ");
+            employeeResponses.append("Request ******" + request + "****** completed, ");
         }
         
         return employeeResponses.toString();
+    }
+
+    public boolean getIsAvailable() {
+        return this.isAvailable;
+    }
+
+    public String getName() {
+        return this.name;
     }
 
 
