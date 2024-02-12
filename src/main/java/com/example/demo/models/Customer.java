@@ -34,16 +34,15 @@ public class Customer {
 
     @Column(name = "ticketNumber")
     private int ticketNumber;
-
-    public Customer() {
-        
-    }
     
     public Customer(String name, String number, CustomerType customerType, String requests) {
         this.name = name;
         this.number = number;
         this.customerType = customerType;
         this.requests = requests;
+    }
+
+    public Customer() {
     }
 
     public int getcID() {
