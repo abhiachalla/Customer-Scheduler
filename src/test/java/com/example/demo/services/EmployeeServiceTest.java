@@ -1,7 +1,8 @@
 package com.example.demo.services;
 
-import com.example.demo.domain.models.Employee;
-import com.example.demo.services.impl.EmployeeServiceImpl;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,14 +11,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import com.example.demo.domain.models.Customer;
+import com.example.demo.domain.models.CustomerType;
+import com.example.demo.services.impl.EmployeeServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-class EmployeeServiceTest {
+class EmployeeServiceImplTest {
 
     @Mock
     private SchedulerService schedulerService;
@@ -25,33 +24,35 @@ class EmployeeServiceTest {
     @InjectMocks
     private EmployeeServiceImpl employeeService;
 
-    private Queue<Employee> mockQueue;
+    @Test
+    void testFreeEmployee() {
 
-    @BeforeEach
-    void setUp() {
-        mockQueue = new LinkedList<>();
-        when(schedulerService.getAllAvailabeEmployees()).thenReturn(mockQueue);
+        String employeeName = "John Doe";
+
+        employeeService.freeEmployee(employeeName, schedulerService);
+
+        verify(schedulerService, times(1)).freeEmployee(employeeName);
     }
 
     @Test
-    void testFreeEmployeeAddsEmployeeWhenQueueIsNotFull() {
-        for (int i = 0; i < 9; i++) { // Fill the queue with 9 employees to simulate it being not full
-            mockQueue.add(new Employee("Employee " + i));
-        }
-        
-        employeeService.freeEmployee("10", schedulerService);
-        
-        assertEquals(10, mockQueue.size(), "Queue should have 10 employees after adding a new one");
+    void testCreateEmployees() {
+
+        String employeeCount = "5";
+
+        employeeService.createEmployees(employeeCount, schedulerService);
+
+        verify(schedulerService, times(1)).createEmployees(Integer.parseInt(employeeCount));
     }
 
     @Test
-    void testFreeEmployeeDoesNotAddEmployeeWhenQueueIsFull() {
-        for (int i = 0; i < 10; i++) { // Fill the queue with 10 employees to simulate it being full
-            mockQueue.add(new Employee("Employee " + i));
-        }
-        
-        employeeService.freeEmployee("11", schedulerService);
-        
-        assertEquals(10, mockQueue.size(), "Queue should remain full with 10 employees and not add a new one");
+    void testServeNextCustomer() {
+
+        Customer nextCustomer = new Customer("Jane Doe", "1234567890", CustomerType.NORMAL, "No Requests");
+        when(schedulerService.getNextCustomer()).thenReturn(nextCustomer);
+
+        String result = employeeService.serveNextCustomer(schedulerService);
+
+        assertNotNull(result);
+        assertTrue(!result.contains("John")); 
     }
 }

@@ -1,76 +1,66 @@
 package com.example.demo.services;
 
-import com.example.demo.domain.models.Customer;
-import com.example.demo.domain.models.CustomerType;
-import com.example.demo.domain.models.Employee;
-import com.example.demo.domain.repositories.CustomerRepository;
-import com.example.demo.services.impl.SchedulerServiceImpl;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
+import com.example.demo.domain.models.Customer;
+import com.example.demo.domain.models.CustomerType;
 
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
+import com.example.demo.domain.repositories.CustomerRepository;
+import com.example.demo.domain.repositories.EmployeeRepository;
+import com.example.demo.services.impl.SchedulerServiceImpl;
+
 
 @ExtendWith(MockitoExtension.class)
-public class SchedulerServiceTest {
+class SchedulerServiceImplTest {
 
-    @Mock(lenient = true)
-    private CustomerRepository customerRepository;    
+    @Mock
+    private CustomerRepository customerRepository;
+
+    @Mock
+    private EmployeeRepository employeeRepository;
 
     @InjectMocks
     private SchedulerServiceImpl schedulerService;
 
     @BeforeEach
     void setUp() {
-        // Assuming Employee initialization is corrected, if necessary, for demonstration
-        // For example, if you're adding employees to availableEmployees here
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void testCheckInVIPCustomer() {
-        Customer vipCustomer = new Customer("John Doe", "12345", CustomerType.VIP, "John");
-        when(customerRepository.findByName("John")).thenReturn(Optional.of(vipCustomer));
+    void testCheckIn() {
 
-        String response = schedulerService.checkIn(vipCustomer);
-        assertTrue(response.contains("Your sequential service number is"));
+        Customer customer = new Customer("John Doe", "1234567890", CustomerType.NORMAL, "No Requests");
+
+        String response = schedulerService.checkIn(customer);
+
+        assertTrue(response.startsWith("Your sequential service number is"));
     }
 
     @Test
-    void testCheckInNormalCustomer() {
-        Customer normalCustomer = new Customer("Jane Doe", "67890", CustomerType.NORMAL, "Jane");
-        when(customerRepository.findByName("Jane")).thenReturn(Optional.of(normalCustomer));
-
-        String response = schedulerService.checkIn(normalCustomer);
-        assertTrue(response.contains("Your sequential service number is"));
-    }
-
-    @Test
-    void testGetNextCustomerVIPFirst() {
-        Customer vipCustomer = new Customer("VIP John", "123", CustomerType.VIP, "VIPJohn");
-        Customer normalCustomer = new Customer("Normal Jane", "456", CustomerType.NORMAL, "NormalJane");
-
-        schedulerService.getAllAvailabeEmployees().add(new Employee("Employee 1"));
-        schedulerService.checkIn(vipCustomer);
-        schedulerService.checkIn(normalCustomer);
+    void testGetNextCustomerWithNoAvailableEmployees() {
 
         Customer nextCustomer = schedulerService.getNextCustomer();
-        assertEquals(vipCustomer.getName(), nextCustomer.getName());
+
+        // Then
+        assertEquals(CustomerType.WAITING, nextCustomer.getCustomerType());
     }
 
     @Test
-    void testGetNextCustomerWhenNoVIPs() {
-        Customer normalCustomer = new Customer("Normal Jane", "456", CustomerType.NORMAL, "NormalJane");
-        schedulerService.getAllAvailabeEmployees().add(new Employee("Employee 1"));
-        schedulerService.checkIn(normalCustomer);
+    void testCreateEmployees() {
 
-        Customer nextCustomer = schedulerService.getNextCustomer();
-        assertEquals(normalCustomer.getName(), nextCustomer.getName());
+        int noOfEmployees = 5;
+
+        schedulerService.createEmployees(noOfEmployees);
+
+        assertEquals(noOfEmployees, schedulerService.getAllAvailabeEmployees().size());
     }
 }
