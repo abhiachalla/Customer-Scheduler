@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+
 @Entity
 @Data
 @Table(name = "Employee")
@@ -43,11 +44,12 @@ public class Employee {
             return "No available employees to serve the customer, please wait!!!";
         }
         
-        // this.currentServingCustomer = customer;
-        this.isAvailable = false;
-        
         String customerRequests = customer.getRequests();
         StringBuilder employeeResponses = new StringBuilder();
+
+        if(customerRequests == null || customerRequests.isEmpty()) {
+            return "No requests to serve";
+        }
 
         for (String request : customerRequests.split(",")) {
             employeeResponses.append("Request ******" + request + "****** completed, ");

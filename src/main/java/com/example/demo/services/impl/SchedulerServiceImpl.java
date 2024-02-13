@@ -6,7 +6,6 @@ import java.util.Queue;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.example.demo.domain.models.Customer;
 import com.example.demo.domain.models.CustomerType;
 import com.example.demo.domain.models.Employee;
@@ -14,23 +13,25 @@ import com.example.demo.domain.repositories.CustomerRepository;
 import com.example.demo.domain.repositories.EmployeeRepository;
 import com.example.demo.services.SchedulerService;
 
+
 @Service
 public class SchedulerServiceImpl implements SchedulerService {
+    
     private Queue<Customer> VIPCustomerList;
     private Queue<Customer> NormalCustomerList;    
 
     private Queue<Employee> availableEmployees;
 
     @Autowired
-    CustomerRepository customerRepository;
+    private CustomerRepository customerRepository;
 
     @Autowired
-    EmployeeRepository employeeRepository;
+    private EmployeeRepository employeeRepository;
 
-    int vipCount;
-    int normalCount;
-    int generatedTicketNumber;
-    int sequenceNumber;
+    private int vipCount;
+    private int normalCount;
+    private int generatedTicketNumber;
+    private int sequenceNumber;
 
     public SchedulerServiceImpl() {
 
@@ -141,7 +142,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 
         for(int i = 0; i < noOfEmployees; i++) {
             
-            Employee employee = new Employee("Employee " + i + 25);
+            Employee employee = new Employee("Employee " + i);
             availableEmployees.add(employee);
             employeeRepository.save(employee);
         }
@@ -158,4 +159,6 @@ public class SchedulerServiceImpl implements SchedulerService {
 
         employeeRepository.save(employee);
     }
+
+
 }

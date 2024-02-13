@@ -1,14 +1,13 @@
 package com.example.demo.services.impl;
 
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.example.demo.domain.models.Customer;
 import com.example.demo.domain.repositories.CustomerRepository;
 import com.example.demo.services.CustomerService;
 import org.springframework.stereotype.Service;
 import com.example.demo.services.SchedulerService;
+
 
 @Service
 public class CustomerServiceImpl implements CustomerService{
