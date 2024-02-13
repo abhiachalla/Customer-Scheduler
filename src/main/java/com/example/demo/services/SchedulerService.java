@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.models.Customer;
 import com.example.demo.models.CustomerType;
+import com.example.demo.models.Employee;
 import com.example.demo.repositories.CustomerRepository;
 
 @Service
@@ -16,6 +17,8 @@ public class SchedulerService {
     
     Queue<Customer> VIPCustomerList;
     Queue<Customer> NormalCustomerList;    
+
+    Queue<Employee> availableEmployees;
 
     @Autowired
     CustomerRepository customerRepository;
@@ -33,6 +36,12 @@ public class SchedulerService {
         this.normalCount = 0;   
         this.generatedTicketNumber = 1;
         this.sequenceNumber = 1;    
+
+        this.availableEmployees = new LinkedList<>();
+
+        for(int i = 0; i < 0; i++) {
+            availableEmployees.add(new Employee("Employee " + i));
+        }
     }
 
     public String checkIn(Customer customer) {
@@ -50,6 +59,10 @@ public class SchedulerService {
     }
 
     public Customer getNextCustomer() {
+
+        if(availableEmployees.isEmpty()) {
+            return new Customer("", "", CustomerType.WAITING, "");
+        }
 
         if(vipCount < 2 && !VIPCustomerList.isEmpty()) {
 
@@ -106,5 +119,9 @@ public class SchedulerService {
 
     public String getgeneratedTicketNumber(Customer customer) {
         return "Your generated ticket number is " + customer.getTicketNumber();
+    }
+
+    public Queue<Employee> getAllAvailabeEmployees() {
+        return availableEmployees;
     }
 }

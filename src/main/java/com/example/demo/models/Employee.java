@@ -18,6 +18,10 @@ public class Employee {
         if(customer.getCustomerType() == CustomerType.EMPTY) {
             return "No customers to serve";
         }
+
+        if(customer.getCustomerType() == CustomerType.WAITING) {
+            return "No available employees to serve the customer, please wait!!!";
+        }
         
         this.currentServingCustomer = customer;
         this.isAvailable = false;

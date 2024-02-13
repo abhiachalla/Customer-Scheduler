@@ -10,6 +10,8 @@ import com.example.demo.services.SchedulerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PostMapping;
+
 
 
 
@@ -22,9 +24,9 @@ public class EmployeeController {
     @Autowired
     SchedulerService schedulerService;
     
-    @GetMapping("/freeEmployee")
-    public void freeEmployee(@RequestBody int eID) {
-        employeeService.freeEmployee(eID);
+    @PostMapping("/freeEmployee")
+    public void freeEmployee(@RequestBody String employeeName) {
+        employeeService.freeEmployee(employeeName, schedulerService);
     }
 
     @GetMapping("/serveNextCustomer")
