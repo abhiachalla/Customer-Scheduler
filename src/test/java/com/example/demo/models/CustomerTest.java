@@ -2,6 +2,9 @@ package com.example.demo.models;
 
 import org.junit.jupiter.api.Test;
 
+import com.example.demo.domain.models.Customer;
+import com.example.demo.domain.models.CustomerType;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 

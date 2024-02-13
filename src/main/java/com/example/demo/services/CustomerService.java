@@ -1,7 +1,8 @@
 package com.example.demo.services;
 
 import org.springframework.stereotype.Service;
-import com.example.demo.models.Customer;
+
+import com.example.demo.domain.models.Customer;
 
 @Service
 public interface CustomerService {

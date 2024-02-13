@@ -7,10 +7,10 @@ import java.util.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.models.Customer;
-import com.example.demo.models.CustomerType;
-import com.example.demo.models.Employee;
-import com.example.demo.repositories.CustomerRepository;
+import com.example.demo.domain.models.Customer;
+import com.example.demo.domain.models.CustomerType;
+import com.example.demo.domain.models.Employee;
+import com.example.demo.domain.repositories.CustomerRepository;
 
 @Service
 public class SchedulerService {

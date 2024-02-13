@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = "com.example.demo.repositories")
+@EnableJpaRepositories(basePackages = "com.example.demo.domain.repositories")
 public class DemoApplication {
 
 	public static void main(String[] args) {

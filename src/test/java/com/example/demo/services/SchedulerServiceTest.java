@@ -1,9 +1,10 @@
 package com.example.demo.services;
 
-import com.example.demo.models.Customer;
-import com.example.demo.models.CustomerType;
-import com.example.demo.models.Employee;
-import com.example.demo.repositories.CustomerRepository;
+import com.example.demo.domain.models.Customer;
+import com.example.demo.domain.models.CustomerType;
+import com.example.demo.domain.models.Employee;
+import com.example.demo.domain.repositories.CustomerRepository;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

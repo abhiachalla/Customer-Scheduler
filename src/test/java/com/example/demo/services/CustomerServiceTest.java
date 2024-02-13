@@ -8,8 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import com.example.demo.models.Customer;
-import com.example.demo.repositories.CustomerRepository;
+
+import com.example.demo.domain.models.Customer;
+import com.example.demo.domain.repositories.CustomerRepository;
 import com.example.demo.services.impl.CustomerServiceImpl;
 
 class CustomerServiceTest {

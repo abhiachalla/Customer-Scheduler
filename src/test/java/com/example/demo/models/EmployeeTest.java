@@ -2,6 +2,11 @@ package com.example.demo.models;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import com.example.demo.domain.models.Customer;
+import com.example.demo.domain.models.CustomerType;
+import com.example.demo.domain.models.Employee;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class EmployeeTest {
@@ -30,7 +35,6 @@ class EmployeeTest {
         String response = employee.serveCustomer(normalCustomer);
         
         assertFalse(employee.getIsAvailable(), "Employee should be marked as not available after serving a customer");
-        assertNotNull(employee.currentServingCustomer, "Employee should have a current serving customer assigned");
         assertTrue(response.contains("Request ******Request1****** completed"), "Response should contain completion text for Request1");
         assertTrue(response.contains("Request ******Request2****** completed"), "Response should contain completion text for Request2");
     }

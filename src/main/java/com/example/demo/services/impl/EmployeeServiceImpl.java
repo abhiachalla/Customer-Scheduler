@@ -4,7 +4,7 @@ import java.util.Queue;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.models.Employee;
+import com.example.demo.domain.models.Employee;
 import com.example.demo.services.EmployeeService;
 import com.example.demo.services.SchedulerService;
 

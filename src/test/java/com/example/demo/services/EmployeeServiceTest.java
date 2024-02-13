@@ -1,6 +1,6 @@
 package com.example.demo.services;
 
-import com.example.demo.models.Employee;
+import com.example.demo.domain.models.Employee;
 import com.example.demo.services.impl.EmployeeServiceImpl;
 
 import org.junit.jupiter.api.BeforeEach;
