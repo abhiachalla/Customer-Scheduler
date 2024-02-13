@@ -1,5 +1,7 @@
 package com.example.demo.services.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.demo.domain.models.Customer;
@@ -22,17 +24,12 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     public String addCustomer(Customer customer) {
-        // store in DB
-        // send to scheduler
-        
-        // if(customer exists, return "customer already exists")
 
-        // Optional<Customer> customerExists = customerRepository.findByName(customer.getName());
-        
+        Optional<Customer> customerExists = customerRepository.findByName(customer.getName());
 
-        // if(customerExists.isPresent()) {
-        //     return "Customer already exists!";
-        // } 
+        if(customerExists.isPresent()) {
+            return "Customer already exists!";
+        }
 
         customerRepository.save(customer);
         
@@ -44,6 +41,7 @@ public class CustomerServiceImpl implements CustomerService{
     public String getSequenceNumber(Customer customer) {
         // if the customer exists in db, return the ticket number
         // else return "customer not found"
+        // this helps us build kiosk *************
         return "";
     }   
 }
