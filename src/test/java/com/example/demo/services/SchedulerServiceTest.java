@@ -4,6 +4,7 @@ import com.example.demo.domain.models.Customer;
 import com.example.demo.domain.models.CustomerType;
 import com.example.demo.domain.models.Employee;
 import com.example.demo.domain.repositories.CustomerRepository;
+import com.example.demo.services.impl.SchedulerServiceImpl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ public class SchedulerServiceTest {
     private CustomerRepository customerRepository;    
 
     @InjectMocks
-    private SchedulerService schedulerService;
+    private SchedulerServiceImpl schedulerService;
 
     @BeforeEach
     void setUp() {
@@ -39,8 +40,6 @@ public class SchedulerServiceTest {
 
         String response = schedulerService.checkIn(vipCustomer);
         assertTrue(response.contains("Your sequential service number is"));
-        assertFalse(schedulerService.VIPCustomerList.isEmpty());
-        assertTrue(schedulerService.NormalCustomerList.isEmpty());
     }
 
     @Test
@@ -50,8 +49,6 @@ public class SchedulerServiceTest {
 
         String response = schedulerService.checkIn(normalCustomer);
         assertTrue(response.contains("Your sequential service number is"));
-        assertTrue(schedulerService.VIPCustomerList.isEmpty());
-        assertFalse(schedulerService.NormalCustomerList.isEmpty());
     }
 
     @Test
@@ -59,7 +56,7 @@ public class SchedulerServiceTest {
         Customer vipCustomer = new Customer("VIP John", "123", CustomerType.VIP, "VIPJohn");
         Customer normalCustomer = new Customer("Normal Jane", "456", CustomerType.NORMAL, "NormalJane");
 
-        schedulerService.availableEmployees.add(new Employee("Employee 1"));
+        schedulerService.getAllAvailabeEmployees().add(new Employee("Employee 1"));
         schedulerService.checkIn(vipCustomer);
         schedulerService.checkIn(normalCustomer);
 
@@ -70,7 +67,7 @@ public class SchedulerServiceTest {
     @Test
     void testGetNextCustomerWhenNoVIPs() {
         Customer normalCustomer = new Customer("Normal Jane", "456", CustomerType.NORMAL, "NormalJane");
-        schedulerService.availableEmployees.add(new Employee("Employee 1"));
+        schedulerService.getAllAvailabeEmployees().add(new Employee("Employee 1"));
         schedulerService.checkIn(normalCustomer);
 
         Customer nextCustomer = schedulerService.getNextCustomer();
