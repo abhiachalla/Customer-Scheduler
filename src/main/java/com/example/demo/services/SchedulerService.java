@@ -13,4 +13,8 @@ public interface SchedulerService {
     public Customer getNextCustomer();
     
     public Queue<Employee> getAllAvailabeEmployees();
+
+    public void createEmployees(int noOfEmployees);
+
+    public void freeEmployee(String name);
 } 

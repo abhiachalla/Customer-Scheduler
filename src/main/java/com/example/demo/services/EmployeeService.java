@@ -6,5 +6,6 @@ import org.springframework.stereotype.Service;
 public interface EmployeeService {
 
     public void freeEmployee(String name, SchedulerService schedulerService);
+    public void createEmployees(int noOfEmployees, SchedulerService schedulerService);
     
 } 

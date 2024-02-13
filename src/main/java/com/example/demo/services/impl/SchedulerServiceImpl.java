@@ -11,6 +11,7 @@ import com.example.demo.domain.models.Customer;
 import com.example.demo.domain.models.CustomerType;
 import com.example.demo.domain.models.Employee;
 import com.example.demo.domain.repositories.CustomerRepository;
+import com.example.demo.domain.repositories.EmployeeRepository;
 import com.example.demo.services.SchedulerService;
 
 @Service
@@ -23,12 +24,16 @@ public class SchedulerServiceImpl implements SchedulerService {
     @Autowired
     CustomerRepository customerRepository;
 
+    @Autowired
+    EmployeeRepository employeeRepository;
+
     int vipCount;
     int normalCount;
     int generatedTicketNumber;
     int sequenceNumber;
 
     public SchedulerServiceImpl() {
+
         this.VIPCustomerList = new LinkedList<>();
         this.NormalCustomerList = new LinkedList<>();
 
@@ -38,10 +43,6 @@ public class SchedulerServiceImpl implements SchedulerService {
         this.sequenceNumber = 1;    
 
         this.availableEmployees = new LinkedList<>();
-
-        for(int i = 0; i < 0; i++) {
-            availableEmployees.add(new Employee("Employee " + i));
-        }
     }
 
     public String checkIn(Customer customer) {
@@ -74,6 +75,8 @@ public class SchedulerServiceImpl implements SchedulerService {
             int nextSequentialServiceNumber = nexCustomer.getSequentialServiceNumber();
 
             this.updateCustomerTicketNumber(nextSequentialServiceNumber, ticketID);
+
+            this.assignCustomerToEmployee(nextSequentialServiceNumber);
             
             return nexCustomer;
         } 
@@ -90,6 +93,8 @@ public class SchedulerServiceImpl implements SchedulerService {
             int nextSequentialServiceNumber = nexCustomer.getSequentialServiceNumber();
 
             this.updateCustomerTicketNumber(nextSequentialServiceNumber, ticketID);
+
+            this.assignCustomerToEmployee(nextSequentialServiceNumber);
             
             return nexCustomer;
         }
@@ -117,7 +122,40 @@ public class SchedulerServiceImpl implements SchedulerService {
             }
     }
 
+    private void assignCustomerToEmployee(int nextSequentialServiceNumber) {
+        
+        Employee servingEmployee = availableEmployees.poll();
+
+        servingEmployee.setSequentialServiceNumberServing(nextSequentialServiceNumber);
+
+        String servingEmployeeName = servingEmployee.getName();
+
+        employeeRepository.updateSequenceNumberByName(servingEmployeeName, nextSequentialServiceNumber);
+    }
+
     public Queue<Employee> getAllAvailabeEmployees() {
         return availableEmployees;
+    }
+
+    public void createEmployees(int noOfEmployees) {
+
+        for(int i = 0; i < noOfEmployees; i++) {
+            
+            Employee employee = new Employee("Employee " + i + 25);
+            availableEmployees.add(employee);
+            employeeRepository.save(employee);
+        }
+    }
+
+    public void freeEmployee(String name) {
+
+        Employee employee = employeeRepository.findByName(name);
+
+        // Add the employee back the available employees list to make him available for the next customer.
+        availableEmployees.add(employee);
+
+        employee.setSequentialServiceNumberServing(0);
+
+        employeeRepository.save(employee);
     }
 }
