@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import com.example.demo.models.Customer;
 import com.example.demo.repositories.CustomerRepository;
+import com.example.demo.services.impl.CustomerServiceImpl;
 
 class CustomerServiceTest {
 
@@ -20,7 +21,7 @@ class CustomerServiceTest {
     private CustomerRepository customerRepository;
 
     @InjectMocks
-    private CustomerService customerService;
+    private CustomerServiceImpl customerService;
 
     @BeforeEach
     void setUp() {
